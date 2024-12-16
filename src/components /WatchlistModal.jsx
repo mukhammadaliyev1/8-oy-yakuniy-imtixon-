@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 export default function WatchlistModal({ isOpen, onClose }) {
   const [watchlist, setWatchlist] = useState([]);
 
-  useEffect(function () {
+  useEffect(() => {
     const savedWatchlist = localStorage.getItem("watchlist");
     if (savedWatchlist) {
       setWatchlist(JSON.parse(savedWatchlist));
@@ -12,24 +12,27 @@ export default function WatchlistModal({ isOpen, onClose }) {
   }, []);
 
   function addToWatchlist(newCoin) {
-    const exists = watchlist.some(function (coin) {
-      return coin.id === newCoin.id;
+    setWatchlist((prevWatchlist) => {
+      const exists = prevWatchlist.some((coin) => coin.id === newCoin.id);
+      if (!exists) {
+        const updatedWatchlist = [...prevWatchlist, newCoin];
+        localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist));
+        return updatedWatchlist;
+      }
+      return prevWatchlist;
     });
+  }
 
-    if (!exists) {
-      const updatedWatchlist = watchlist.concat(newCoin);
-      setWatchlist(updatedWatchlist);
-      localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist));
-    }
-  }
   function removeFromWatchlist(id) {
-    const updatedWatchlist = watchlist.filter(function (item) {
-      return item.id !== id;
+    setWatchlist((prevWatchlist) => {
+      const updatedWatchlist = prevWatchlist.filter((coin) => coin.id !== id);
+      localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist));
+      return updatedWatchlist;
     });
-    setWatchlist(updatedWatchlist);
-    localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist));
   }
+
   if (!isOpen) return null;
+
   return (
     <div className="fixed right-0 top-0 h-full w-72 bg-[#141414] shadow-lg">
       <div className="flex items-center justify-between border-b border-gray-700 p-4">
@@ -40,28 +43,24 @@ export default function WatchlistModal({ isOpen, onClose }) {
       </div>
       <div className="grid grid-cols-2 gap-4 p-4">
         {watchlist.length > 0 ? (
-          watchlist.map(function (coin) {
-            return (
-              <div key={coin.id} className="flex flex-col items-center">
-                <img
-                  src={coin.image}
-                  alt={coin.name}
-                  className="h-12 w-12 rounded-full"
-                />
-                <p className="mt-2 text-sm font-medium text-white">
-                  {coin.symbol.toUpperCase()}
-                </p>
-                <button
-                  onClick={function () {
-                    removeFromWatchlist(coin.id);
-                  }}
-                  className="mt-1 rounded bg-red-500 px-2 py-1 text-xs text-white hover:bg-red-600"
-                >
-                  REMOVE
-                </button>
-              </div>
-            );
-          })
+          watchlist.map((coin) => (
+            <div key={coin.id} className="flex flex-col items-center">
+              <img
+                src={coin.image}
+                alt={coin.name}
+                className="h-12 w-12 rounded-full"
+              />
+              <p className="mt-2 text-sm font-medium text-white">
+                {coin.symbol.toUpperCase()}
+              </p>
+              <button
+                onClick={() => removeFromWatchlist(coin.id)}
+                className="mt-1 rounded bg-red-500 px-2 py-1 text-xs text-white hover:bg-red-600"
+              >
+                REMOVE
+              </button>
+            </div>
+          ))
         ) : (
           <div className="text-white">No coins in watchlist</div>
         )}

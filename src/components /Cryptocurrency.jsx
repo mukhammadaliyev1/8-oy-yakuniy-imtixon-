@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IoEye } from "react-icons/io5";
-
 export default function Cryptocurrency({ selectedCurrency }) {
   const [cryptoData, setCryptoData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");

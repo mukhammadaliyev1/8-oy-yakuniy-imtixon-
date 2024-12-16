@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useState } from "react"
 import Corusel from "./Corusel"
 import Cryptocurrency from "./Cryptocurrency"
@@ -40,10 +38,8 @@ function Home() {
       </div>
       <Cryptocurrency selectedCurrency={currency} />
       <WatchlistModal isOpen={isWatchlistOpen} onClose={() => setIsWatchlistOpen(false)} />
-    </div>
-    
+    </div>   
   )
 }
-
 export default Home
 
