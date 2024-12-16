@@ -40,9 +40,6 @@ function Home() {
       </div>
       <Cryptocurrency selectedCurrency={currency} />
       <WatchlistModal isOpen={isWatchlistOpen} onClose={() => setIsWatchlistOpen(false)} />
-      <h1>
-        created by islamjanvc
-      </h1>
     </div>
     
   )
