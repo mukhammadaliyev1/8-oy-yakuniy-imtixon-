@@ -34,9 +34,10 @@ function Corusel() {
   }, [controls, items.length]);
   return (
     <div
-      className="w-full h-96 flex items-center justify-center p-8 overflow-hidden bg-cover bg-center  mx-auto"
-      style={{ backgroundImage: 'url("src/assets/background.svg")' }}
-    >
+    className="w-full h-96 flex items-center justify-center p-8 overflow-hidden bg-cover bg-center mx-auto"
+    style={{ backgroundImage: 'url("/background.svg")' }}
+  >
+x  
       <div className="">
         <h1 className="font-montserrat text-6xl font-extrabold leading-[72px] tracking-[-0.5px] text-center text-[#87CEEB] mt-12">
           {" "}
